@@ -11,9 +11,9 @@ public class FileWatcher {
     private  String fileExtension;
     private  String commandToExecute;
     private final Path recordsPath;
-    private final Path mp3Path;
+    final Path mp3Path;
     private final Path whisCodePath;
-    private final Path savePath;
+    final Path savePath;
 
 
     public FileWatcher() throws IOException {
@@ -108,28 +108,5 @@ public class FileWatcher {
             e.printStackTrace();
         }
     }
-
-
-    public static void main(String[] args) {
-        try {
-            FileWatcher fileWatcher = new FileWatcher();
-            String directoryToWatch = fileWatcher.mp3Path.toString();
-            String fileExtension = ".mp3";
-            String commandToExecute = "Get-ChildItem -Filter *.mp3 | ForEach-Object {\n" +
-                    "    whisper $_.FullName --language es --model medium --device cpu\n" +
-                    "}\n";
-            fileWatcher.setParameters(directoryToWatch, fileExtension, commandToExecute);
-
-            // Llama al método main de AudioRecorder con la ruta de la carpeta mp3 como argumento
-            Thread audioRecorderThread = new Thread(() -> AudioRecorder.main(new String[]{directoryToWatch}));
-            audioRecorderThread.start();
-
-            fileWatcher.watchDirectory();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
 }

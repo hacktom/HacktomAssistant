@@ -12,12 +12,8 @@ public class AudioRecorder {
     static String mp3FolderPath = "";
     static String temporaryFolderPath = "temporal";
 
-    public static void main(String[] args) {
-        if (args.length < 1) {
-            System.err.println("Error: No se proporcionó la ruta de la carpeta mp3.");
-            System.exit(-1);
-        }
-        mp3FolderPath = args[0];
+    public void startRecording(String mp3Folder) {
+        mp3FolderPath = mp3Folder;
 
         // Crear la carpeta temporal si no existe
         File tempFolder = new File(temporaryFolderPath);
