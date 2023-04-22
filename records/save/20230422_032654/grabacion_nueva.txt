@@ -1,0 +1,2 @@
+Este es un mensaje de prueba para Whisper en un nuevo formato de archivo.
+Hackton crea un archivo xml y crea un archivo mp3.
