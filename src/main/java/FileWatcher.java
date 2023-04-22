@@ -51,6 +51,12 @@ public class FileWatcher {
                     Path fileName = pathEvent.context();
                     if (fileName.toString().endsWith(fileExtension)) {
                         System.out.println("Archivo .mp3 detectado: " + fileName);
+                        // Espera un segundo antes de mover el archivo
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         Files.move(mp3Path.resolve(fileName), whisCodePath.resolve(fileName), StandardCopyOption.REPLACE_EXISTING);
                         executeCommand(commandToExecute);
                         checkForTxtFileAndMoveFiles();
@@ -64,6 +70,7 @@ public class FileWatcher {
             e.printStackTrace();
         }
     }
+
 
     private void checkForTxtFileAndMoveFiles() throws IOException {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(whisCodePath)) {
@@ -112,10 +119,17 @@ public class FileWatcher {
                     "    whisper $_.FullName --language es --model medium --device cpu\n" +
                     "}\n";
             fileWatcher.setParameters(directoryToWatch, fileExtension, commandToExecute);
+
+            // Llama al método main de AudioRecorder con la ruta de la carpeta mp3 como argumento
+            Thread audioRecorderThread = new Thread(() -> AudioRecorder.main(new String[]{directoryToWatch}));
+            audioRecorderThread.start();
+
             fileWatcher.watchDirectory();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+
 
 }

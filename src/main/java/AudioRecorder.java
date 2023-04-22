@@ -2,11 +2,29 @@ import javax.sound.sampled.*;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.concurrent.TimeUnit;
 
 public class AudioRecorder {
+    static String mp3FolderPath = "";
+    static String temporaryFolderPath = "temporal";
 
     public static void main(String[] args) {
+        if (args.length < 1) {
+            System.err.println("Error: No se proporcionó la ruta de la carpeta mp3.");
+            System.exit(-1);
+        }
+        mp3FolderPath = args[0];
+
+        // Crear la carpeta temporal si no existe
+        File tempFolder = new File(temporaryFolderPath);
+        if (!tempFolder.exists()) {
+            tempFolder.mkdir();
+        }
+
         AudioRecorder recorder = new AudioRecorder();
         int durationInSeconds = 10; // Cambia esta variable para ajustar la duración de la grabación
         String outputFileName = "grabacion.mp3";
@@ -35,7 +53,9 @@ public class AudioRecorder {
             targetDataLine.open(audioFormat);
             targetDataLine.start();
 
-            File outputFile = new File(outputFileName);
+            File outputFile = new File(temporaryFolderPath, outputFileName);
+
+
             AudioInputStream audioInputStream = new AudioInputStream(targetDataLine);
             Thread recordingThread = new Thread(() -> {
                 try {
@@ -55,6 +75,17 @@ public class AudioRecorder {
             targetDataLine.stop();
             targetDataLine.close();
             recordingThread.join();
+
+            // Mover el archivo de la carpeta temporal a la carpeta mp3
+            Path source = Paths.get(temporaryFolderPath, outputFileName);
+            Path destination = Paths.get(mp3FolderPath, outputFileName);
+            try {
+                Files.move(source, destination, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e) {
+                System.err.println("Error al mover el archivo de la carpeta temporal a la carpeta mp3: " + e.getMessage());
+                e.printStackTrace();
+            }
+
         } catch (LineUnavailableException | InterruptedException e) {
             System.err.println("Error al grabar audio: " + e.getMessage());
             e.printStackTrace();
