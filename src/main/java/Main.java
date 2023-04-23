@@ -3,6 +3,7 @@ import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
         try {
+
             FileWatcher fileWatcher = new FileWatcher();
             String directoryToWatch = fileWatcher.mp3Path.toString();
             String fileExtension = ".mp3";
@@ -20,6 +21,9 @@ public class Main {
 
             // Comienza la vigilancia de archivos
             fileWatcher.watchDirectory();
+
+
+
 
         } catch (IOException e) {
             e.printStackTrace();
