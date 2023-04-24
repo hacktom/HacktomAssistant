@@ -10,7 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class OpenAIAPI {
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "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";
     private static final String API_URL = "https://api.openai.com/v1/chat/completions";
 
     public static void main(String[] args) throws IOException {
@@ -22,6 +22,7 @@ public class OpenAIAPI {
                 "    \n" +
                 "  ]";
         String criterioBase2 = "dame en formato JSON la lista de comandos bash necesarios para: ";
+        String criterioCompletoInit = criteriosBase +" "+ criterioBase2 +" ";
         //String criterioBase3 "la ruta del usuari"
         JSONObject requestBody = new JSONObject();
         requestBody.put("model", "gpt-3.5-turbo");
@@ -31,7 +32,9 @@ public class OpenAIAPI {
         message.put("role", "assistant");
         //message.put("content", criteriosBase + " " + criterioBase2 + " crear una carpeta llamada prueba y dentro un documento de texto que lleve el nombre logrado y que dentro contenga este es el mensaje dentro del archivo");
         //message.put("content", criteriosBase + " " + criterioBase2 + " saber cual es la ruta del perfil de usuario usuado actualmente y la ruta de la carpeta documentos");
-        message.put("content", criteriosBase + " " + criterioBase2 + "ir a la carpeta Downloads y verificar si existe un archivo llamado recibo_cfe.pdf en caso de SI existir copialo con el nombre recibo_cfe_IA_COMPLETE.pdf");
+        //message.put("content", criteriosBase + " " + criterioBase2 + "ir a la carpeta Downloads y verificar si existe un archivo llamado recibo_cfe.pdf en caso de SI existir copialo con el nombre recibo_cfe_IA_COMPLETE.pdf");
+        message.put("content",criterioCompletoInit+"ir a la carpeta downloads crear una carpeta llamada IA, dentro de esta carpeta crear un archivo de texto con el nombre prueba y dentro de ese archivo el texto hola hacktom, si en la carpeta downloads existe el archivo CURP_ZACR910309HMCVNC07 PDF copialo a la carpeta IA, crea un documento de WORD y dentro escribe la lista de archivos sus extenciones y hora de creacion de los archivos de la carpeta IA");
+
         messages.put(message);
         requestBody.put("messages", messages);
 

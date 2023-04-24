@@ -9,15 +9,33 @@ public class JsonCommandExecutor {
 
     public static void main(String[] args) {
         String jsonString = "[\n" +
-                "  {\n" +
-                "    \"comando\": \"cd ~/Downloads\",\n" +
-                "    \"descripcion\": \"Ir a la carpeta Downloads\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"comando\": \"if [ -f recibo_cfe.pdf ]; then\\n  cp recibo_cfe.pdf recibo_cfe_IA_COMPLETE.pdf\\nfi\",\n" +
-                "    \"descripcion\": \"Verificar si existe el archivo recibo_cfe.pdf y copiarlo con el nombre recibo_cfe_IA_COMPLETE.pdf en caso de existir\"\n" +
-                "  }\n" +
-                "]";
+                "    {\n" +
+                "      \"comando\": \"cd downloads\",\n" +
+                "      \"descripcion\": \"ir a la carpeta downloads\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"comando\": \"mkdir IA\",\n" +
+                "      \"descripcion\": \"crear una carpeta llamada IA\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"comando\": \"cd IA && touch prueba.txt\",\n" +
+                "      \"descripcion\": \"dentro de esta carpeta crear un archivo de texto con el nombre prueba\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"comando\": \"echo 'hola hacktom' >> prueba.txt\",\n" +
+                "      \"descripcion\": \"dentro de ese archivo el texto hola hacktom\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"comando\": \"if [[ -f CURP_ZACR910309HMCVNC07.pdf ]]; then cp CURP_ZACR910309HMCVNC07.pdf IA; fi\",\n" +
+                "      \"descripcion\": \"si en la carpeta downloads existe el archivo CURP_ZACR910309HMCVNC07 PDF copialo a la carpeta IA\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"comando\": \"cd IA && ls -lh >> lista_archivos.docx\",\n" +
+                "      \"descripcion\": \"crea un documento de WORD y dentro escribe la lista de archivos sus extenciones y hora de creacion de los archivos de la carpeta IA\"\n" +
+                "    }\n" +
+                "]\n" +
+                "\n" +
+                "Process finished with exit code 0\n";
         executeCommandsFromJson(jsonString);
         System.out.println(jsonString);
     }
